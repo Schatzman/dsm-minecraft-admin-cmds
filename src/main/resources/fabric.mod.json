@@ -1,0 +1,23 @@
+{
+	"schemaVersion": 1,
+	"id": "dsm_minecraft_admin_cmds",
+	"version": "${version}",
+	"name": "DSM Minecraft Admin Commands",
+	"description": "Private-server Fabric admin commands, starting with safe entity scaling.",
+	"authors": [
+		"Daniel Schatz-Miller"
+	],
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.schatzman.dsmadmincmds.DsmMinecraftAdminCmds"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.18.6",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": ">=0.92.0+1.20.1"
+	}
+}
