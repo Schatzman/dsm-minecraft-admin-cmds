@@ -33,7 +33,7 @@ public abstract class GameRendererReachScaleMixin {
 			return distanceSqr;
 		}
 
-		double scaledDistance = ScaleValues.scaleDistance(Math.sqrt(distanceSqr), scale);
+		double scaledDistance = ScaleValues.scaleReachDistance(Math.sqrt(distanceSqr), scale);
 		return scaledDistance * scaledDistance;
 	}
 
@@ -43,6 +43,6 @@ public abstract class GameRendererReachScaleMixin {
 			return distance;
 		}
 
-		return ScaleValues.scaleDistance(distance, ((EntityScaleAccess) player).dsm$getScale());
+		return ScaleValues.scaleReachDistance(distance, ((EntityScaleAccess) player).dsm$getScale());
 	}
 }

@@ -22,9 +22,9 @@ public final class ScaleAttributeModifiers {
 			return;
 		}
 
-		float scale = ScaleValues.clamp(scaleAccess.dsm$getScale());
-		applyAttribute(livingEntity, Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED_MODIFIER_ID, MOVEMENT_SPEED_MODIFIER_NAME, scale);
-		applyAttribute(livingEntity, Attributes.FLYING_SPEED, FLYING_SPEED_MODIFIER_ID, FLYING_SPEED_MODIFIER_NAME, scale);
+		float speedMultiplier = (float) ScaleValues.movementSpeedMultiplier(scaleAccess.dsm$getScale());
+		applyAttribute(livingEntity, Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED_MODIFIER_ID, MOVEMENT_SPEED_MODIFIER_NAME, speedMultiplier);
+		applyAttribute(livingEntity, Attributes.FLYING_SPEED, FLYING_SPEED_MODIFIER_ID, FLYING_SPEED_MODIFIER_NAME, speedMultiplier);
 	}
 
 	private static void applyAttribute(LivingEntity livingEntity, Attribute attribute, UUID modifierId, String modifierName, float scale) {

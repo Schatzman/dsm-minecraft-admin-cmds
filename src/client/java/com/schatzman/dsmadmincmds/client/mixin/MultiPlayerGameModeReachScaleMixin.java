@@ -21,7 +21,7 @@ public abstract class MultiPlayerGameModeReachScaleMixin {
 
 		float scale = ((EntityScaleAccess) player).dsm$getScale();
 		if (!ScaleValues.isDefault(scale)) {
-			cir.setReturnValue((float) ScaleValues.scaleDistance(cir.getReturnValueF(), scale));
+			cir.setReturnValue((float) ScaleValues.scaleReachDistance(cir.getReturnValueF(), scale));
 		}
 	}
 }

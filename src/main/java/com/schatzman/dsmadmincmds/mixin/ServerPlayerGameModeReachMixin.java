@@ -20,6 +20,6 @@ public abstract class ServerPlayerGameModeReachMixin {
 	@Redirect(method = "handleBlockBreakAction", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;distanceToSqr(Lnet/minecraft/world/phys/Vec3;)D"))
 	private double dsm$scaleBlockBreakReach(Vec3 instance, Vec3 other) {
 		float scale = ((EntityScaleAccess) this.player).dsm$getScale();
-		return ScaleValues.unscaleDistanceSqrForVanillaCheck(instance.distanceToSqr(other), scale);
+		return ScaleValues.unscaleReachDistanceSqrForVanillaCheck(instance.distanceToSqr(other), scale);
 	}
 }

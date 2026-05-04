@@ -14,7 +14,7 @@ public abstract class AbstractHorseJumpScaleMixin {
 	private void dsm$scaleCustomJump(CallbackInfoReturnable<Double> cir) {
 		float scale = ((EntityScaleAccess) this).dsm$getScale();
 		if (!ScaleValues.isDefault(scale)) {
-			cir.setReturnValue(cir.getReturnValueD() * scale);
+			cir.setReturnValue(cir.getReturnValueD() * ScaleValues.jumpVelocityMultiplier(scale));
 		}
 	}
 }

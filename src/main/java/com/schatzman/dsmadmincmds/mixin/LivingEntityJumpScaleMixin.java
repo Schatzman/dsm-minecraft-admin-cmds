@@ -14,7 +14,7 @@ public abstract class LivingEntityJumpScaleMixin {
 	private void dsm$scaleJumpPower(CallbackInfoReturnable<Float> cir) {
 		float scale = ((EntityScaleAccess) this).dsm$getScale();
 		if (!ScaleValues.isDefault(scale)) {
-			cir.setReturnValue(cir.getReturnValueF() * scale);
+			cir.setReturnValue((float) (cir.getReturnValueF() * ScaleValues.jumpVelocityMultiplier(scale)));
 		}
 	}
 }
