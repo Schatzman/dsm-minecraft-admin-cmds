@@ -3,7 +3,9 @@
 	"package": "com.schatzman.dsmadmincmds.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"EntityScaleMixin"
+		"EntityPoseEyeHeightScaleMixin",
+		"EntityScaleMixin",
+		"PlayerEyeHeightScaleMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

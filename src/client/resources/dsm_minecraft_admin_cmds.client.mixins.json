@@ -3,6 +3,7 @@
 	"package": "com.schatzman.dsmadmincmds.client.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
+		"CameraScaleMixin",
 		"LivingEntityRenderScaleMixin"
 	],
 	"injectors": {
