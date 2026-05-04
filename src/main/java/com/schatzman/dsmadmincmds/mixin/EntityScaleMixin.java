@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -68,12 +69,11 @@ public abstract class EntityScaleMixin implements EntityScaleAccess {
 		}
 	}
 
-	@Inject(method = "getDimensions", at = @At("RETURN"), cancellable = true)
-	private void dsm$scaleDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
+	@Redirect(method = "refreshDimensions", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getDimensions(Lnet/minecraft/world/entity/Pose;)Lnet/minecraft/world/entity/EntityDimensions;"))
+	private EntityDimensions dsm$scaleRefreshDimensions(Entity entity, Pose pose) {
+		EntityDimensions dimensions = entity.getDimensions(pose);
 		float scale = dsm$getScale();
-		if (!ScaleValues.isDefault(scale)) {
-			cir.setReturnValue(cir.getReturnValue().scale(scale));
-		}
+		return ScaleValues.isDefault(scale) ? dimensions : dimensions.scale(scale);
 	}
 
 	@Override
