@@ -3,9 +3,13 @@
 	"package": "com.schatzman.dsmadmincmds.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"AbstractHorseJumpScaleMixin",
 		"EntityPoseEyeHeightScaleMixin",
 		"EntityScaleMixin",
-		"PlayerEyeHeightScaleMixin"
+		"LivingEntityJumpScaleMixin",
+		"PlayerEyeHeightScaleMixin",
+		"ServerGamePacketListenerReachMixin",
+		"ServerPlayerGameModeReachMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

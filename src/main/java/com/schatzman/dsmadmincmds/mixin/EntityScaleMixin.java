@@ -1,6 +1,7 @@
 package com.schatzman.dsmadmincmds.mixin;
 
 import com.schatzman.dsmadmincmds.scale.EntityScaleAccess;
+import com.schatzman.dsmadmincmds.scale.ScaleAttributeModifiers;
 import com.schatzman.dsmadmincmds.scale.ScaleValues;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -65,6 +66,7 @@ public abstract class EntityScaleMixin implements EntityScaleAccess {
 	@Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At("TAIL"))
 	private void dsm$onSyncedScaleUpdated(EntityDataAccessor<?> data, CallbackInfo ci) {
 		if (DSM_SCALE.equals(data)) {
+			dsm$applyScaleSideEffects();
 			refreshDimensions();
 		}
 	}
@@ -94,8 +96,14 @@ public abstract class EntityScaleMixin implements EntityScaleAccess {
 		float clampedScale = ScaleValues.clamp(scale);
 		float previousScale = dsm$getScale();
 		this.entityData.set(DSM_SCALE, clampedScale);
+		dsm$applyScaleSideEffects();
 		if (Math.abs(previousScale - clampedScale) >= ScaleValues.EPSILON) {
 			refreshDimensions();
 		}
+	}
+
+	@Unique
+	private void dsm$applyScaleSideEffects() {
+		ScaleAttributeModifiers.apply(this, this);
 	}
 }

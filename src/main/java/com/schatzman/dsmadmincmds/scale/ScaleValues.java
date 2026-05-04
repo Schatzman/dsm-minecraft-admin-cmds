@@ -2,8 +2,8 @@ package com.schatzman.dsmadmincmds.scale;
 
 public final class ScaleValues {
 	public static final float DEFAULT_SCALE = 1.0F;
-	public static final float MIN_SCALE = 0.1F;
-	public static final float MAX_SCALE = 10.0F;
+	public static final float MIN_SCALE = 0.01F;
+	public static final float MAX_SCALE = 100.0F;
 	public static final float EPSILON = 0.0001F;
 
 	private ScaleValues() {
@@ -15,5 +15,18 @@ public final class ScaleValues {
 
 	public static boolean isDefault(float scale) {
 		return Math.abs(scale - DEFAULT_SCALE) < EPSILON;
+	}
+
+	public static double scaleDistance(double distance, float scale) {
+		return isDefault(scale) ? distance : distance * scale;
+	}
+
+	public static double unscaleDistanceSqrForVanillaCheck(double distanceSqr, float scale) {
+		if (isDefault(scale)) {
+			return distanceSqr;
+		}
+
+		double safeScale = Math.max(MIN_SCALE, scale);
+		return distanceSqr / (safeScale * safeScale);
 	}
 }
