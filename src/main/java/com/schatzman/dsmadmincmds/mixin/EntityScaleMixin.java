@@ -9,7 +9,9 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -36,21 +38,21 @@ public abstract class EntityScaleMixin implements EntityScaleAccess {
 	@Shadow
 	public abstract void refreshDimensions();
 
-	@Inject(method = "defineSynchedData", at = @At("TAIL"))
-	private void dsm$defineScaleData(CallbackInfo ci) {
+	@Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;defineSynchedData()V", shift = At.Shift.AFTER))
+	private void dsm$defineScaleData(EntityType<?> entityType, Level level, CallbackInfo ci) {
 		this.entityData.define(DSM_SCALE, ScaleValues.DEFAULT_SCALE);
 		this.dsm$scaleDataDefined = true;
 	}
 
-	@Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
-	private void dsm$writeScaleData(CompoundTag nbt, CallbackInfo ci) {
+	@Inject(method = "saveWithoutId", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;addAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V", shift = At.Shift.AFTER))
+	private void dsm$writeScaleData(CompoundTag nbt, CallbackInfoReturnable<CompoundTag> cir) {
 		float scale = dsm$getScale();
 		if (!ScaleValues.isDefault(scale)) {
 			nbt.putFloat(DSM_SCALE_NBT_KEY, scale);
 		}
 	}
 
-	@Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+	@Inject(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V", shift = At.Shift.AFTER))
 	private void dsm$readScaleData(CompoundTag nbt, CallbackInfo ci) {
 		if (nbt.contains(DSM_SCALE_NBT_KEY, Tag.TAG_ANY_NUMERIC)) {
 			dsm$setScale(nbt.getFloat(DSM_SCALE_NBT_KEY));
@@ -59,7 +61,7 @@ public abstract class EntityScaleMixin implements EntityScaleAccess {
 		}
 	}
 
-	@Inject(method = "onSyncedDataUpdated", at = @At("TAIL"))
+	@Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At("TAIL"))
 	private void dsm$onSyncedScaleUpdated(EntityDataAccessor<?> data, CallbackInfo ci) {
 		if (DSM_SCALE.equals(data)) {
 			refreshDimensions();
