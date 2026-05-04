@@ -28,12 +28,12 @@ public abstract class GameRendererReachScaleMixin {
 			return distanceSqr;
 		}
 
-		float scale = ((EntityScaleAccess) player).dsm$getScale();
-		if (ScaleValues.isDefault(scale)) {
+		float reachMultiplier = ((EntityScaleAccess) player).dsm$getEffectiveReachMultiplier();
+		if (ScaleValues.isDefault(reachMultiplier)) {
 			return distanceSqr;
 		}
 
-		double scaledDistance = ScaleValues.scaleReachDistance(Math.sqrt(distanceSqr), scale);
+		double scaledDistance = ScaleValues.scaleByMultiplier(Math.sqrt(distanceSqr), reachMultiplier);
 		return scaledDistance * scaledDistance;
 	}
 
@@ -43,6 +43,6 @@ public abstract class GameRendererReachScaleMixin {
 			return distance;
 		}
 
-		return ScaleValues.scaleReachDistance(distance, ((EntityScaleAccess) player).dsm$getScale());
+		return ScaleValues.scaleReachDistance(distance, (EntityScaleAccess) player);
 	}
 }

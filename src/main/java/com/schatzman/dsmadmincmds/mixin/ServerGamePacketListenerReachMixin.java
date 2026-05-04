@@ -32,7 +32,6 @@ public abstract class ServerGamePacketListenerReachMixin {
 	}
 
 	private double dsm$unscaleDistanceSqr(double distanceSqr) {
-		float scale = ((EntityScaleAccess) this.player).dsm$getScale();
-		return ScaleValues.unscaleReachDistanceSqrForVanillaCheck(distanceSqr, scale);
+		return ScaleValues.unscaleReachDistanceSqrForVanillaCheck(distanceSqr, (EntityScaleAccess) this.player);
 	}
 }

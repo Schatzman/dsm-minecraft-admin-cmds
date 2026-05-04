@@ -5,6 +5,9 @@ public final class ScaleValues {
 	public static final float MIN_SCALE = 0.01F;
 	public static final float MAX_SCALE = 100.0F;
 	public static final float EPSILON = 0.0001F;
+	public static final float UNSET_EXPLICIT_MULTIPLIER = 0.0F;
+	public static final float MIN_MULTIPLIER = 0.01F;
+	public static final float MAX_MULTIPLIER = 100.0F;
 	private static final double MOVEMENT_SPEED_EXPONENT = 0.75D;
 	private static final double REACH_EXPONENT = 0.75D;
 	private static final double JUMP_VELOCITY_EXPONENT = 0.5D;
@@ -16,8 +19,16 @@ public final class ScaleValues {
 		return Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale));
 	}
 
+	public static float clampMultiplier(float multiplier) {
+		return Math.max(MIN_MULTIPLIER, Math.min(MAX_MULTIPLIER, multiplier));
+	}
+
 	public static boolean isDefault(float scale) {
 		return Math.abs(scale - DEFAULT_SCALE) < EPSILON;
+	}
+
+	public static boolean hasExplicitMultiplier(float multiplier) {
+		return multiplier > EPSILON;
 	}
 
 	public static double movementSpeedMultiplier(float scale) {
@@ -37,13 +48,16 @@ public final class ScaleValues {
 		return isDefault(scale) ? distance : distance * scale;
 	}
 
-	public static double scaleReachDistance(double distance, float scale) {
-		return distance * reachMultiplier(scale);
+	public static double scaleReachDistance(double distance, EntityScaleAccess scaleAccess) {
+		return scaleByMultiplier(distance, scaleAccess.dsm$getEffectiveReachMultiplier());
 	}
 
-	public static double unscaleReachDistanceSqrForVanillaCheck(double distanceSqr, float scale) {
-		double reachMultiplier = reachMultiplier(scale);
-		return distanceSqr / (reachMultiplier * reachMultiplier);
+	public static double scaleByMultiplier(double value, float multiplier) {
+		return isDefault(multiplier) ? value : value * multiplier;
+	}
+
+	public static double unscaleReachDistanceSqrForVanillaCheck(double distanceSqr, EntityScaleAccess scaleAccess) {
+		return unscaleDistanceSqrForVanillaCheck(distanceSqr, scaleAccess.dsm$getEffectiveReachMultiplier());
 	}
 
 	public static double unscaleDistanceSqrForVanillaCheck(double distanceSqr, float scale) {
@@ -51,7 +65,7 @@ public final class ScaleValues {
 			return distanceSqr;
 		}
 
-		double safeScale = Math.max(MIN_SCALE, scale);
+		double safeScale = Math.max(MIN_MULTIPLIER, scale);
 		return distanceSqr / (safeScale * safeScale);
 	}
 

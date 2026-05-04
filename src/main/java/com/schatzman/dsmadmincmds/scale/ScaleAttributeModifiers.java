@@ -11,8 +11,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 public final class ScaleAttributeModifiers {
 	private static final UUID MOVEMENT_SPEED_MODIFIER_ID = UUID.fromString("76541f5a-c706-42f6-8ff5-36bb54ae50b1");
 	private static final UUID FLYING_SPEED_MODIFIER_ID = UUID.fromString("e6f52e94-85bb-4285-a8f1-d3eeff89fd39");
-	private static final String MOVEMENT_SPEED_MODIFIER_NAME = "DSM scale movement speed";
-	private static final String FLYING_SPEED_MODIFIER_NAME = "DSM scale flying speed";
+	private static final String MOVEMENT_SPEED_MODIFIER_NAME = "DSM admin movement speed";
+	private static final String FLYING_SPEED_MODIFIER_NAME = "DSM admin flying speed";
 
 	private ScaleAttributeModifiers() {
 	}
@@ -22,20 +22,20 @@ public final class ScaleAttributeModifiers {
 			return;
 		}
 
-		float speedMultiplier = (float) ScaleValues.movementSpeedMultiplier(scaleAccess.dsm$getScale());
+		float speedMultiplier = scaleAccess.dsm$getEffectiveSpeedMultiplier();
 		applyAttribute(livingEntity, Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED_MODIFIER_ID, MOVEMENT_SPEED_MODIFIER_NAME, speedMultiplier);
 		applyAttribute(livingEntity, Attributes.FLYING_SPEED, FLYING_SPEED_MODIFIER_ID, FLYING_SPEED_MODIFIER_NAME, speedMultiplier);
 	}
 
-	private static void applyAttribute(LivingEntity livingEntity, Attribute attribute, UUID modifierId, String modifierName, float scale) {
+	private static void applyAttribute(LivingEntity livingEntity, Attribute attribute, UUID modifierId, String modifierName, float multiplier) {
 		AttributeInstance attributeInstance = livingEntity.getAttribute(attribute);
 		if (attributeInstance == null) {
 			return;
 		}
 
 		attributeInstance.removeModifier(modifierId);
-		if (!ScaleValues.isDefault(scale)) {
-			attributeInstance.addTransientModifier(new AttributeModifier(modifierId, modifierName, scale - 1.0D, Operation.MULTIPLY_TOTAL));
+		if (!ScaleValues.isDefault(multiplier)) {
+			attributeInstance.addTransientModifier(new AttributeModifier(modifierId, modifierName, multiplier - 1.0D, Operation.MULTIPLY_TOTAL));
 		}
 	}
 }

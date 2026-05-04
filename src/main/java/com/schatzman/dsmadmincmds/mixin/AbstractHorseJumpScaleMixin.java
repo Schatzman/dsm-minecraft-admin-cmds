@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractHorse.class)
 public abstract class AbstractHorseJumpScaleMixin {
 	@Inject(method = "getCustomJump", at = @At("RETURN"), cancellable = true)
-	private void dsm$scaleCustomJump(CallbackInfoReturnable<Double> cir) {
-		float scale = ((EntityScaleAccess) this).dsm$getScale();
-		if (!ScaleValues.isDefault(scale)) {
-			cir.setReturnValue(cir.getReturnValueD() * ScaleValues.jumpVelocityMultiplier(scale));
+	private void dsm$scaleHorseCustomJump(CallbackInfoReturnable<Double> cir) {
+		float jumpMultiplier = ((EntityScaleAccess) this).dsm$getEffectiveJumpMultiplier();
+		if (!ScaleValues.isDefault(jumpMultiplier)) {
+			cir.setReturnValue(cir.getReturnValueD() * jumpMultiplier);
 		}
 	}
 }

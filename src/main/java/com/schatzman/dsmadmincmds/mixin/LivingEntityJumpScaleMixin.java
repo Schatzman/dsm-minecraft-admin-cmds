@@ -12,9 +12,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LivingEntityJumpScaleMixin {
 	@Inject(method = "getJumpPower", at = @At("RETURN"), cancellable = true)
 	private void dsm$scaleJumpPower(CallbackInfoReturnable<Float> cir) {
-		float scale = ((EntityScaleAccess) this).dsm$getScale();
-		if (!ScaleValues.isDefault(scale)) {
-			cir.setReturnValue((float) (cir.getReturnValueF() * ScaleValues.jumpVelocityMultiplier(scale)));
+		float jumpMultiplier = ((EntityScaleAccess) this).dsm$getEffectiveJumpMultiplier();
+		if (!ScaleValues.isDefault(jumpMultiplier)) {
+			cir.setReturnValue((float) (cir.getReturnValueF() * jumpMultiplier));
 		}
 	}
 }

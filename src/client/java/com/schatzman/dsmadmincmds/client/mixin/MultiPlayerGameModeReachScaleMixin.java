@@ -19,9 +19,9 @@ public abstract class MultiPlayerGameModeReachScaleMixin {
 			return;
 		}
 
-		float scale = ((EntityScaleAccess) player).dsm$getScale();
-		if (!ScaleValues.isDefault(scale)) {
-			cir.setReturnValue((float) ScaleValues.scaleReachDistance(cir.getReturnValueF(), scale));
+		float reachMultiplier = ((EntityScaleAccess) player).dsm$getEffectiveReachMultiplier();
+		if (!ScaleValues.isDefault(reachMultiplier)) {
+			cir.setReturnValue((float) ScaleValues.scaleByMultiplier(cir.getReturnValueF(), reachMultiplier));
 		}
 	}
 }
