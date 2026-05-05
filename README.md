@@ -27,3 +27,13 @@ All commands require permission level 2 or higher. Player command sources must a
 - `/dsm-invulnerable on|off <targets>` - toggle admin invulnerability without changing game mode. Damage is blocked and new status effects are rejected; existing harmful effects are cleared when toggled on.
 
 Scale is synchronized with tracked entity data, persisted in NBT, applied to entity dimensions/hitboxes, and applied visually on clients for living entity renders. Reach, speed, and jump use scale-derived defaults until an explicit multiplier is set; `reset` clears the explicit axis override. Speed uses stable transient attribute modifiers, removing the previous DSM modifier before applying the current multiplier.
+
+## Silk Touch Spawner Helper
+
+This mod also ships a private-server Silk Touch spawner helper for Minecraft 1.20.1:
+
+- The bundled `minecraft:blocks/spawner` loot table lets iron, diamond, and netherite pickaxes with Silk Touch drop one spawner item with the original `BlockEntityTag` copied from the broken spawner.
+- On the server, a Fabric placement hook intercepts non-creative placement of spawner items that contain preserved `BlockEntityTag.SpawnData` or `BlockEntityTag.SpawnPotentials`. It places the spawner itself, restores the saved block-entity NBT at the actual placed coordinates, updates clients, and consumes one item.
+- Normal spawner item placement is left to vanilla when the item has no preserved spawner NBT. Creative-mode placement is also left to vanilla.
+
+Install this mod alone when Fabric is available; the external datapack is not required for collection in that setup because the same loot-table override is bundled here. If using the datapack without this mod, runtime testing showed vanilla/datapack-only placement can drop a labeled spawner item but restore it as a generic empty spawner when placed.

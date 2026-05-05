@@ -1,0 +1,86 @@
+{
+	"type": "minecraft:block",
+	"pools": [
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:spawner",
+					"conditions": [
+						{
+							"condition": "minecraft:match_tool",
+							"predicate": {
+								"items": [
+									"minecraft:iron_pickaxe",
+									"minecraft:diamond_pickaxe",
+									"minecraft:netherite_pickaxe"
+								],
+								"enchantments": [
+									{
+										"enchantment": "minecraft:silk_touch",
+										"levels": {
+											"min": 1
+										}
+									}
+								]
+							}
+						}
+					],
+					"functions": [
+						{
+							"function": "minecraft:set_nbt",
+							"tag": "{BlockEntityTag:{id:\"minecraft:mob_spawner\"}}"
+						},
+						{
+							"function": "minecraft:copy_nbt",
+							"source": "block_entity",
+							"ops": [
+								{
+									"source": "SpawnData",
+									"target": "BlockEntityTag.SpawnData",
+									"op": "replace"
+								},
+								{
+									"source": "SpawnPotentials",
+									"target": "BlockEntityTag.SpawnPotentials",
+									"op": "replace"
+								},
+								{
+									"source": "MinSpawnDelay",
+									"target": "BlockEntityTag.MinSpawnDelay",
+									"op": "replace"
+								},
+								{
+									"source": "MaxSpawnDelay",
+									"target": "BlockEntityTag.MaxSpawnDelay",
+									"op": "replace"
+								},
+								{
+									"source": "SpawnCount",
+									"target": "BlockEntityTag.SpawnCount",
+									"op": "replace"
+								},
+								{
+									"source": "MaxNearbyEntities",
+									"target": "BlockEntityTag.MaxNearbyEntities",
+									"op": "replace"
+								},
+								{
+									"source": "RequiredPlayerRange",
+									"target": "BlockEntityTag.RequiredPlayerRange",
+									"op": "replace"
+								},
+								{
+									"source": "SpawnRange",
+									"target": "BlockEntityTag.SpawnRange",
+									"op": "replace"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
