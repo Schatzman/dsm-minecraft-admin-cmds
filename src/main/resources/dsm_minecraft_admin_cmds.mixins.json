@@ -6,6 +6,8 @@
 		"AbstractHorseJumpScaleMixin",
 		"EntityAdminInvulnerabilityMixin",
 		"EntityAdminInvulnerabilityMixin$Effects",
+		"EntityAdminInvulnerabilityMixin$LivingDamage",
+		"EntityAdminInvulnerabilityMixin$PlayerDamage",
 		"EntityCollisionToggleMixin",
 		"EntityPoseEyeHeightScaleMixin",
 		"EntityScaleMixin",
